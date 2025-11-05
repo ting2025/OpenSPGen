@@ -8,13 +8,13 @@
 import os
 import time
 import sys
-import csv
 import traceback
-import pandas as pd
-import numpy as np
 import argparse, sys
 
 # Local
+import os.path
+script_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(script_dir)
 from lib import spGenerator as sp
 
 # =============================================================================
@@ -92,9 +92,10 @@ def call_generateSP(entry,configFile):
     errorOcurred=0
     # Get initial xyz
     initialXYZ_=initialXYZ
-    # if initialXYZ_ is provided, adjust path:
-    if initialXYZ_ not in [None, 'Random']: # does not wok for provided xyz
-        initialXYZ_=os.path.join('..',initialXYZ_)
+    # if initialXYZ_ is provided, convert relative to absolute path:
+    if initialXYZ_ not in [None, 'Random']: # does not work for provided xyz
+        if not os.path.isabs(initialXYZ_):
+            initialXYZ_ = os.path.abspath(initialXYZ_)
     try:
         warning=sp.generateSP(entry[1],jobFolder,np_NWChem,configFile,
                               identifierType=identifierType,
@@ -304,12 +305,15 @@ def parseUserArgs(userArgs):
     else:
         job_name=f'SP-GivenInitXYZ-Mol_{job_name_tail}'
 
-    # Path to the main folder
-    mainFolder=os.path.join(os.path.dirname(os.path.realpath(__file__)),
-                            '..',
-                            job_name)
-    # Make main folder
-    if not os.path.isdir(mainFolder): os.makedirs(mainFolder)
+    # Path to the OpenSPGen scripts and libraries
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    # Path to config files
+    config_dir = os.path.join(script_dir, 'lib', '_config')
+    
+    # Main job folder will be inside the current working directory
+    mainFolder = os.path.join(os.getcwd(), job_name)
+    # Make main job folder, if it doesn't exist alread
+    os.makedirs(mainFolder, exist_ok=True)
 
     # Path to the log file of the script. 
     logPath=os.path.join(mainFolder,'job.log')
@@ -426,7 +430,8 @@ def parseUserArgs(userArgs):
     return (
         identifier, identifierType, charge, initialXYZ, 
         preOptimize, job_name, np_NWChem, logPath, 
-        mainFolder, nJobs, randomSeeds, noautoz, iodine
+        mainFolder, nJobs, randomSeeds, noautoz, iodine,
+        config_dir
         )
 
 # =============================================================================
@@ -436,7 +441,8 @@ def parseUserArgs(userArgs):
 (
     identifier, identifierType, charge, initialXYZ, 
     preOptimize, job_name, np_NWChem, logPath, 
-    mainFolder, nJobs, randomSeeds, noautoz, iodine
+    mainFolder, nJobs, randomSeeds, noautoz, iodine,
+    config_dir
  )=parseUserArgs(args) 
 # Initiate count of jobs finished
 count=0
@@ -445,28 +451,13 @@ for n in range(nJobs):
     molName=job_name+'_'+str(n)
     # Check if molName requires special config file
     if noautoz:
-        configFile=os.path.join(mainFolder,
-                                '..',
-                                'Python',
-                                'lib',
-                                '_config',
-                                nwchemConfig+'_noautoz.config')
+        configFile=os.path.join(config_dir, nwchemConfig+'_noautoz.config')
         print(f'\nUsing noautoz config file: {configFile}\n')
     elif iodine:
-        configFile=os.path.join(mainFolder,
-                                '..',
-                                'Python',
-                                'lib',
-                                '_config',
-                                nwchemConfig+'_Iodine.config')
+        configFile=os.path.join(config_dir, nwchemConfig+'_Iodine.config')
         print(f'\nUsing Iodine config file: {configFile}\n')
     else:
-        configFile=os.path.join(mainFolder,
-                                '..',
-                                'Python',
-                                'lib',
-                                '_config',
-                                nwchemConfig+'.config')
+        configFile=os.path.join(config_dir, nwchemConfig+'.config')
         print(f'\nUsing default config file: {configFile}\n')
     # Call generateSP
     __,t,e=call_generateSP([molName,identifier],configFile)
