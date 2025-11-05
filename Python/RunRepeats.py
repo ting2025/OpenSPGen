@@ -41,24 +41,17 @@ args=parser.parse_args()
 # Configuration (fixed options)
 # =============================================================================
 
-# NWChem Config file base name
+# NWChem Config file base name - full config file path is f"Python/lib/_config/{nwchemConfig}"
 nwchemConfig='COSMO_HF_SVP'
 # Do COSMO? (= calculate sigma profile, not just sigma surface)
 doCOSMO=True
-# Molecule requires noautoz config file
-noautoz=False
-# Molecule requires iodine config file
-iodine=False
 # Other spGenerator.py options:
-cleanOutput=True
-removeNWOutput=True
-generateFinalXYZ=True
-generateOutputSummary=True
-avgRadius=None
-sigmaBins=[-0.250,0.250,0.001]
-noautoz=False
-iodine=False
-
+cleanOutput=True        # delete auxiliary NWChem files (e.g. job_name.movecs, job_name.drv.hess, job_name.db)
+removeNWOutput=True     # delete NWChem output file
+generateFinalXYZ=True   # generate xyz file for final optimized geometry
+generateOutputSummary=True      # generate output summary file (includes energies from last optimization step)
+avgRadius=None                  # averaging radius for converting sigma surface to sigma profile
+sigmaBins=[-0.250,0.250,0.001]  # charge density bins. The range here is larger than needed to prevent jobs from crashing
 
 # =============================================================================
 # Auxiliary Functions
