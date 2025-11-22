@@ -6,7 +6,7 @@ An open source sigma profile generator.
 The journal article associated with this work is available on DigitalDiscovery:[Open-source generation of sigma profiles: impact of quantum chemistry and solvation treatment on machine learning performance](https://pubs.rsc.org/en/content/articlelanding/2025/dd/d5dd00087d). Along with an earlier pre-print on [ChemRxiv](https://chemrxiv.org/engage/chemrxiv/article-details/67bc9bf6fa469535b9bb872e).
 
 ## Installation Instructions
-1. Install the open source DFT package `NWChem` without Python support. The version used during the development of this package is `7.2.0-beta2` available for download [here](https://github.com/nwchemgit/nwchem/releases/tag/v7.2.0-beta2)*. Functionality has been tested with later versions (version `7.2.3` to be specific), but consistency of the produced sigma profiles with version `7.2.0-beta2` has not been tested.
+1. Install the open source DFT package `NWChem` without Python support. The version used during the development of this package is `7.2.0-beta2` available for download [here](https://github.com/nwchemgit/nwchem/releases/tag/v7.2.0-beta2)*. Functionality has been tested with later versions (versions `7.2.*` and `7.3.0` to be specific), but consistency of the produced sigma profiles with version `7.2.0-beta2` has not been tested and is not expected.
 2. Add the path of the `nwchem` executable to your `PATH` variable (the `nwchem` executable path should be along the lines of: `User/Desktop/nwchem-7.2.0-beta2/bin/LINUX64`)
 3. Download the current repository to your local machine.
 4. Create a conda environment where you can install `rdkit` and its dependencies from the provided `yml` file using the following instructions:
