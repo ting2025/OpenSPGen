@@ -18,7 +18,7 @@ Sections
         . averagingAlgorithm()
         . getSigmaProfile()
 
-Last edit: 2025-01-29
+Last edit: 2026-01-21
 Author: Dinis Abranches, Fathya Salih
 """
 
@@ -33,6 +33,7 @@ import secrets
 import shutil
 import random
 import glob
+from pathlib import Path
 
 # Specific
 import numpy
@@ -167,6 +168,8 @@ def generateSP(identifier,jobFolder,np,configFile,
         molecule=rdk.getInitialConformer(smilesString,randomSeed=randomSeed,xyzPath=xyzPath)
     else: # Copy supplied xyz file to job folder as initialGeometry.xyz
         shutil.copy2(initialXYZ,xyzPath)
+    # Define logPath from jobFolder
+    logPath=os.path.join(Path(jobFolder).parent, "job.log")
     # Get formal charge of molecule
     if charge is None: 
         charge=rdmolops.GetFormalCharge(molecule)
@@ -237,7 +240,7 @@ def generateSP(identifier,jobFolder,np,configFile,
                         +'\n\tThe full output.nw file along with the final configuration will be returned...')
     # Output
     return warning
-    
+
 def benchmarkPerformance(logPath,nRepetitions,npList,
                          # args passed to generateSP():
                          identifier,configFile,
