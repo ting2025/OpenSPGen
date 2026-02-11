@@ -463,6 +463,7 @@ def crossCheck(identifier,identifierType):
             smilesString_1=cirpy.resolve(identifier,'smiles')
             break
         except:
+            smilesString_1=None
             time.sleep(10)
     # Get PubChem identifier type
     if identifierType=='CAS-Number': pubType='name'
@@ -472,9 +473,10 @@ def crossCheck(identifier,identifierType):
     for __ in range(10): # Protect against random connection errors
         try:
             # Returns empty list if identifier is not found
-            smilesString_2=pubchempy.get_compounds(identifier,pubType)
+            smilesString_2=pubchempy.get_compounds(identifier,pubType)[0].isomeric_smiles
             break
         except:
+            smilesString_2=None
             time.sleep(10)
     # Cross check SMILES strings
     if smilesString_1 is None and not smilesString_2:
@@ -489,17 +491,17 @@ def crossCheck(identifier,identifierType):
         # If identifier could not be found in CIRpy, add warning
         warning='Identifier not found by CIRpy...'
         # Set smiles as those returned by PubChemPy
-        smilesString=smilesString_2[0].isomeric_smiles
+        smilesString=smilesString_2
     else:
         # Canonicalize smiles with RDKit before comparing
         mol1=Chem.MolFromSmiles(smilesString_1)
-        mol2=Chem.MolFromSmiles(smilesString_2[0].isomeric_smiles)
+        mol2=Chem.MolFromSmiles(smilesString_2)
         smilesString_1=Chem.rdmolfiles.MolToSmiles(mol1)
         smilesString_2=Chem.rdmolfiles.MolToSmiles(mol2)
         # Cross check
         if smilesString_1!=smilesString_2:
             # If smiles do not match, add warning
-            warning='Cross check failed...'
+            warning='Failed to find the SMILES string in PubChem and ...'
         # Set smiles as those returned by PubChemPy
         smilesString=smilesString_2
     # Output
