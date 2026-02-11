@@ -173,7 +173,7 @@ def getInitialConformer(smilesString,randomSeed=42,xyzPath=None):
     # Generate initial 3D structure of the molecule
     AllChem.EmbedMolecule(molecule,randomSeed=randomSeed)
     # Minimize initial guess with MMFF
-    AllChem.MMFFOptimizeMolecule(molecule)
+    AllChem.MMFFOptimizeMolecule(molecule,maxIters=1000)
     # If an XYZ file is requested, save XYZ file
     if xyzPath is not None: Chem.MolToXYZFile(molecule,xyzPath)
     # Output
