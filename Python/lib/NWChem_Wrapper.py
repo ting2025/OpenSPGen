@@ -212,7 +212,7 @@ def readOutput(outputPath,doCOSMO=True):
             # Go to line of last occurrence
             goToLine(file,lastOccurrenceLine)
             # Retrieve total number of surface segments 
-            lineSplit=findNextOccurrence(file,'points')
+            lineSplit=findNextOccurrence(file,'-cosmo-')
             nSeg=int(lineSplit[-1])
             # Retrieve total surface area (next line)
             lineSplit=file.readline().split()
