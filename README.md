@@ -19,9 +19,10 @@ These instructions are for a user who would like all functionalities to be prese
    ```
    # Go to the directory where the repository was installed
    cd <OpenSPGen-installation-path>
-   cd Python
-   # Create a conda environment for all the dependencies
-   conda env create -n spg-env --file spg-7.3.yml
+   # Create conda environment with for OpenSPGen
+   conda create -n spgen python=3.10
+   # Install required packages
+   pip install -r requirements.txt
    ```
 Then, you can run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
    ```
@@ -41,8 +42,11 @@ These instructions are for the case where the user has an existing NWChem instal
 5. Create a conda environment where you can install `rdkit` and its dependencies from the provided `yml` file using the following instructions:
    ```
    # Go to the directory where the repository was installed
+   # Go to the directory where the repository was installed
    cd <OpenSPGen-installation-path>
+   # Create conda environment with for OpenSPGen
    conda create -n spgen python=3.10
+   # Install required packages
    pip install -r requirements.txt
    ```
    and accept all prompts in the terminal
