@@ -35,18 +35,18 @@ Then, you can run the installation tests (will run a sigma profile generation jo
 These instructions are for the case where the user has an existing NWChem installation (has to be at least version `7.2.0` or higher) or a the user would like to install NWChem with specific build instructions (the basic build is sufficient for this package).
 
 1. Install the open source DFT package `NWChem` without Python support (note the compatible versions listed below).
-1. Add the path of the `nwchem` executable to your `PATH` variable (the `nwchem` executable path should be along the lines of: `User/Desktop/nwchem-7.2.0-beta2/bin/LINUX64`)
-1. Download the current repository to your local machine.
-1. Add the path of the folder containing main python script (`<OpenSPGen-installation-path>/Python`) to your `PATH` variable.
-1. Create a conda environment where you can install `rdkit` and its dependencies from the provided `yml` file using the following instructions:
+2. Add the path of the `nwchem` executable to your `PATH` variable (the `nwchem` executable path should be along the lines of: `User/Desktop/nwchem-7.2.0-beta2/bin/LINUX64`)
+3. Download the current repository to your local machine.
+4. Add the path of the folder containing main python script (`<OpenSPGen-installation-path>/Python`) to your `PATH` variable.
+5. Create a conda environment where you can install `rdkit` and its dependencies from the provided `yml` file using the following instructions:
    ```
    # Go to the directory where the repository was installed
    cd <OpenSPGen-installation-path>
-   cd Python
-   # Create a conda environment for all the dependencies
-   conda env create -n spg-env --file spg.yml
+   conda create -n spgen python=3.10
+   pip install -r requirements.txt
    ```
-1. Run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
+   and accept all prompts in the terminal
+6. Run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
    ```
    ./run-tests.sh
    ```
