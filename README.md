@@ -17,13 +17,17 @@ The journal article associated with this work is available on DigitalDiscovery:[
 These instructions are for a user who would like all functionalities to be present within the same conda environment. Here, NWChem along with the necessary python dependencies are installed through conda from an environment file using the following instructions:
 
    ```
-   # Go to the directory where the repository was installed
    cd <OpenSPGen-installation-path>
-   # Create conda environment with for OpenSPGen
+   # Create a conda environment for all the dependencies
+   conda env create -n spg-env --file Python/spg-7.3.yml
+   ```
+   Installing with the .yml file is preferred for reproducibility of results. If it failed on your device, linux dependencies could be excluded by replacing the line of conda environment creation with the following block:
+   ```
    conda create -n spgen python=3.10
    # Install required packages
    pip install -r requirements.txt
    ```
+   and accept all prompts in the terminal
 Then, you can run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
    ```
    ./run-tests.sh
@@ -40,17 +44,20 @@ These instructions are for the case where the user has an existing NWChem instal
 3. Download the current repository to your local machine.
 4. Add the path of the folder containing main python script (`<OpenSPGen-installation-path>/Python`) to your `PATH` variable.
 5. Create a conda environment where you can install `rdkit` and its dependencies from the provided `yml` file using the following instructions:
+
    ```
-   # Go to the directory where the repository was installed
-   # Go to the directory where the repository was installed
    cd <OpenSPGen-installation-path>
-   # Create conda environment with for OpenSPGen
+   # Create a conda environment for all the dependencies
+   conda env create -n spg-env --file Python/spg-7.3.yml
+   ```
+   Installing with the .yml file is preferred for reproducibility of results. If it failed on your device, linux dependencies could be excluded by replacing the line of conda environment creation with the following block:
+   ```
    conda create -n spgen python=3.10
    # Install required packages
    pip install -r requirements.txt
    ```
-   and accept all prompts in the terminal
-6. Run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
+   and accept all prompts in the terminal.
+7. Run the installation tests (will run a sigma profile generation job for methane with different inputs - a SMILES, a CAS number and a pre-optimized xyz). *You may need to edit the environment section of the script before running tests.*
    ```
    ./run-tests.sh
    ```
